@@ -5,10 +5,15 @@ import entity.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import view.tm.CustomerTm;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -27,6 +32,7 @@ public class CustomerFormController {
     public TableColumn colAddress;
     public TableColumn colSalary;
     public TableColumn colOption;
+    public AnchorPane customerContext;
 
     public void initialize(){
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -143,5 +149,12 @@ public class CustomerFormController {
     public void newCustomerOnAction(ActionEvent actionEvent) {
         clear();
         btnSaveCustomer.setText("Save Customer");
+    }
+
+    public void backToHomeOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) customerContext.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(
+                getClass().getResource("../view/MainForm.fxml"))));
+        stage.centerOnScreen();
     }
 }
