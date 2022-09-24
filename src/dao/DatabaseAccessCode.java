@@ -1,5 +1,6 @@
 package dao;
 
+import db.DBConnection;
 import entity.Customer;
 import entity.Item;
 
@@ -9,10 +10,7 @@ import java.util.ArrayList;
 public class DatabaseAccessCode {
 // manage Customers
     public boolean saveCustomer(Customer c) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
-                "root","1234");
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO Customer VALUES(?,?,?,?)");
+        PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO Customer VALUES(?,?,?,?)");
         statement.setString(1,c.getId());
         statement.setString(2,c.getName());
         statement.setString(3,c.getAddress());
@@ -20,10 +18,7 @@ public class DatabaseAccessCode {
         return statement.executeUpdate()>0;
     }
     public ArrayList<Customer> loadAllCustomers() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
-                "root","1234");
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Customer");
+        PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM Customer");
         ResultSet resultSet = statement.executeQuery();
         ArrayList<Customer> list= new ArrayList<>();
         while (resultSet.next()){
@@ -33,19 +28,13 @@ public class DatabaseAccessCode {
         return list;
     }
     public boolean deleteCustomer(String id) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
-                "root","1234");
         PreparedStatement statement =
-                connection.prepareStatement("DELETE FROM Customer WHERE id=?");
+                DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM Customer WHERE id=?");
         statement.setString(1,id);
         return statement.executeUpdate()>0;
     }
     public boolean updateCustomer(Customer c) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
-                "root","1234");
-        PreparedStatement statement = connection
+        PreparedStatement statement = DBConnection.getInstance().getConnection()
                 .prepareStatement("UPDATE Customer SET name=?,address=?,salary=? WHERE id=?");
         statement.setString(1,c.getName());
         statement.setString(2,c.getAddress());
@@ -56,22 +45,15 @@ public class DatabaseAccessCode {
 
 // manage items
     public boolean saveItem(Item i) throws ClassNotFoundException, SQLException {
-    Class.forName("com.mysql.cj.jdbc.Driver");
-    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
-            "root","1234");
-    PreparedStatement statement = connection.prepareStatement("INSERT INTO Item VALUES(?,?,?,?)");
+    PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO Item VALUES(?,?,?,?)");
     statement.setString(1,i.getCode());
     statement.setString(2,i.getDescription());
     statement.setDouble(3,i.getUnitPrice());
     statement.setInt(4,i.getQtyOnHand());
     return statement.executeUpdate()>0;
 }
-
     public ArrayList<Item> loadAllItems() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
-                "root","1234");
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Item");
+        PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM Item");
         ResultSet resultSet = statement.executeQuery();
         ArrayList<Item> list= new ArrayList<>();
         while (resultSet.next()){
@@ -80,22 +62,15 @@ public class DatabaseAccessCode {
         }
         return list;
     }
-
     public boolean deleteItem(String id) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
-                "root","1234");
+
         PreparedStatement statement =
-                connection.prepareStatement("DELETE FROM Item WHERE code=?");
+                DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM Item WHERE code=?");
         statement.setString(1,id);
         return statement.executeUpdate()>0;
     }
-
     public boolean updateItem(Item i) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
-                "root","1234");
-        PreparedStatement statement = connection
+        PreparedStatement statement = DBConnection.getInstance().getConnection()
                 .prepareStatement("UPDATE Item SET description=?,unitPrice=?,qtyOnHand=? WHERE code=?");
         statement.setString(1,i.getDescription());
         statement.setDouble(2,i.getUnitPrice());
