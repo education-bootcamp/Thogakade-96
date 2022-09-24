@@ -10,16 +10,11 @@ import java.util.ArrayList;
 public class DatabaseAccessCode {
 // manage Customers
     public boolean saveCustomer(Customer c) throws ClassNotFoundException, SQLException {
-        PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO Customer VALUES(?,?,?,?)");
-        statement.setString(1,c.getId());
-        statement.setString(2,c.getName());
-        statement.setString(3,c.getAddress());
-        statement.setDouble(4,c.getSalary());
-        return statement.executeUpdate()>0;
+        return CrudUtil.execute("INSERT INTO Customer VALUES(?,?,?,?)",
+                c.getId(),c.getName(),c.getAddress(),c.getSalary());
     }
     public ArrayList<Customer> loadAllCustomers() throws ClassNotFoundException, SQLException {
-        PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM Customer");
-        ResultSet resultSet = statement.executeQuery();
+        ResultSet resultSet = CrudUtil.execute("SELECT * FROM Customer");
         ArrayList<Customer> list= new ArrayList<>();
         while (resultSet.next()){
             list.add(new Customer(resultSet.getString(1),resultSet.getString(2),
@@ -28,33 +23,21 @@ public class DatabaseAccessCode {
         return list;
     }
     public boolean deleteCustomer(String id) throws ClassNotFoundException, SQLException {
-        PreparedStatement statement =
-                DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM Customer WHERE id=?");
-        statement.setString(1,id);
-        return statement.executeUpdate()>0;
+        return CrudUtil.execute("DELETE FROM Customer WHERE id=?",id);
     }
     public boolean updateCustomer(Customer c) throws ClassNotFoundException, SQLException {
-        PreparedStatement statement = DBConnection.getInstance().getConnection()
-                .prepareStatement("UPDATE Customer SET name=?,address=?,salary=? WHERE id=?");
-        statement.setString(1,c.getName());
-        statement.setString(2,c.getAddress());
-        statement.setDouble(3,c.getSalary());
-        statement.setString(4,c.getId());
-        return statement.executeUpdate()>0;
+        return CrudUtil.execute("UPDATE Customer SET name=?,address=?,salary=? WHERE id=?",
+                c.getName(),c.getAddress(),c.getSalary(),c.getId());
     }
 
 // manage items
     public boolean saveItem(Item i) throws ClassNotFoundException, SQLException {
-    PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("INSERT INTO Item VALUES(?,?,?,?)");
-    statement.setString(1,i.getCode());
-    statement.setString(2,i.getDescription());
-    statement.setDouble(3,i.getUnitPrice());
-    statement.setInt(4,i.getQtyOnHand());
-    return statement.executeUpdate()>0;
+    return CrudUtil.execute("INSERT INTO Item VALUES(?,?,?,?)",
+            i.getCode(),i.getDescription(),i.getUnitPrice(),i.getQtyOnHand());
 }
     public ArrayList<Item> loadAllItems() throws ClassNotFoundException, SQLException {
-        PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("SELECT * FROM Item");
-        ResultSet resultSet = statement.executeQuery();
+
+        ResultSet resultSet = CrudUtil.execute("SELECT * FROM Item");
         ArrayList<Item> list= new ArrayList<>();
         while (resultSet.next()){
             list.add(new Item(resultSet.getString(1),resultSet.getString(2),
@@ -63,20 +46,11 @@ public class DatabaseAccessCode {
         return list;
     }
     public boolean deleteItem(String id) throws ClassNotFoundException, SQLException {
-
-        PreparedStatement statement =
-                DBConnection.getInstance().getConnection().prepareStatement("DELETE FROM Item WHERE code=?");
-        statement.setString(1,id);
-        return statement.executeUpdate()>0;
+        return CrudUtil.execute("DELETE FROM Item WHERE code=?",id);
     }
     public boolean updateItem(Item i) throws ClassNotFoundException, SQLException {
-        PreparedStatement statement = DBConnection.getInstance().getConnection()
-                .prepareStatement("UPDATE Item SET description=?,unitPrice=?,qtyOnHand=? WHERE code=?");
-        statement.setString(1,i.getDescription());
-        statement.setDouble(2,i.getUnitPrice());
-        statement.setInt(3,i.getQtyOnHand());
-        statement.setString(4,i.getCode());
-        return statement.executeUpdate()>0;
+        return CrudUtil.execute("UPDATE Item SET description=?,unitPrice=?,qtyOnHand=? WHERE code=?",
+                i.getDescription(),i.getUnitPrice(),i.getQtyOnHand(),i.getCode());
     }
 
 
