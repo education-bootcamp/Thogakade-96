@@ -5,10 +5,8 @@ import entity.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import view.tm.CustomerTm;
 
 import java.sql.SQLException;
@@ -20,9 +18,23 @@ public class CustomerFormController {
     public TextField txtAddress;
     public TextField txtSalary;
     public Button btnSaveCustomer;
-    public TableView tblCustomer;
+    public TableView<CustomerTm> tblCustomer;
+
+
+    public TableColumn colId;
+    public TableColumn colName;
+    public TableColumn colAddress;
+    public TableColumn colSalary;
+    public TableColumn colOption;
 
     public void initialize(){
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+        colOption.setCellValueFactory(new PropertyValueFactory<>("btn"));
+
+
         loadAllCustomers();
     }
 

@@ -28,11 +28,11 @@
       <TextField layoutX="14.0" layoutY="118.0" prefHeight="27.0" prefWidth="422.0" promptText="Search" />
       <TableView fx:id="tblCustomer" layoutX="14.0" layoutY="157.0" prefHeight="233.0" prefWidth="574.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Id" />
-          <TableColumn prefWidth="75.0" text="Name" />
-            <TableColumn prefWidth="169.0" text="Address" />
-            <TableColumn prefWidth="133.0" text="Salary" />
-            <TableColumn prefWidth="120.0" text="Option" />
+          <TableColumn fx:id="colId" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="colName" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="colAddress" prefWidth="169.0" text="Address" />
+            <TableColumn fx:id="colSalary" prefWidth="133.0" text="Salary" />
+            <TableColumn fx:id="colOption" prefWidth="120.0" text="Option" />
         </columns>
       </TableView>
    </children>
