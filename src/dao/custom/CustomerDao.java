@@ -1,13 +1,11 @@
 package dao.custom;
 
+import dao.CrudDao;
 import entity.Customer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface CustomerDao {
-    public boolean saveCustomer(Customer c) throws SQLException, ClassNotFoundException;
-    public ArrayList<Customer> loadAllCustomers() throws SQLException, ClassNotFoundException;
-    public boolean deleteCustomer(String id) throws SQLException, ClassNotFoundException;
-    public boolean updateCustomer(Customer c) throws SQLException, ClassNotFoundException;
+public interface CustomerDao extends CrudDao<Customer, String> {
+
 }

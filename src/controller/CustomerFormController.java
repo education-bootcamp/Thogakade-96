@@ -64,7 +64,7 @@ public class CustomerFormController {
     private void loadAllCustomers() {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
         try{
-            for (Customer c:new CustomerDaoImpl().loadAllCustomers()
+            for (Customer c:new CustomerDaoImpl().loadAll()
              ) {
                 Button btn= new Button("Delete");
                 CustomerTm tm= new CustomerTm(
@@ -80,7 +80,7 @@ public class CustomerFormController {
                                 "Are you sure?", ButtonType.YES, ButtonType.NO);
                         Optional<ButtonType> buttonType = alert.showAndWait();
                         if (buttonType.get()==ButtonType.YES){
-                            if (new CustomerDaoImpl().deleteCustomer(tm.getId())){
+                            if (new CustomerDaoImpl().delete(tm.getId())){
                                 new Alert(Alert.AlertType.CONFIRMATION,"Customer Deleted!").show();
                                 loadAllCustomers();
                             }else{
@@ -110,7 +110,7 @@ public class CustomerFormController {
 
         if (btnSaveCustomer.getText().equalsIgnoreCase("Save Customer")){
             try {
-                boolean isCustomerSaved = new CustomerDaoImpl().saveCustomer(c1);
+                boolean isCustomerSaved = new CustomerDaoImpl().save(c1);
                 if (isCustomerSaved){
                     loadAllCustomers();
                     clear();
@@ -124,7 +124,7 @@ public class CustomerFormController {
             }
         }else{
             try {
-                boolean isCustomerUpdated = new CustomerDaoImpl().updateCustomer(c1);
+                boolean isCustomerUpdated = new CustomerDaoImpl().update(c1);
                 if (isCustomerUpdated){
                     loadAllCustomers();
                     clear();

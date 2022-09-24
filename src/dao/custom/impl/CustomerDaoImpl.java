@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public class CustomerDaoImpl implements CustomerDao {
     @Override
-    public boolean saveCustomer(Customer c) throws SQLException, ClassNotFoundException {
+    public boolean save(Customer c) throws SQLException, ClassNotFoundException {
         return CrudUtil.execute("INSERT INTO Customer VALUES(?,?,?,?)",
                 c.getId(),c.getName(),c.getAddress(),c.getSalary());
     }
 
     @Override
-    public ArrayList<Customer> loadAllCustomers() throws SQLException, ClassNotFoundException {
+    public ArrayList<Customer> loadAll() throws SQLException, ClassNotFoundException {
         ResultSet resultSet = CrudUtil.execute("SELECT * FROM Customer");
         ArrayList<Customer> list= new ArrayList<>();
         while (resultSet.next()){
@@ -27,12 +27,12 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public boolean deleteCustomer(String id) throws SQLException, ClassNotFoundException {
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
         return CrudUtil.execute("DELETE FROM Customer WHERE id=?",id);
     }
 
     @Override
-    public boolean updateCustomer(Customer c) throws SQLException, ClassNotFoundException {
+    public boolean update(Customer c) throws SQLException, ClassNotFoundException {
         return CrudUtil.execute("UPDATE Customer SET name=?,address=?,salary=? WHERE id=?",
                 c.getName(),c.getAddress(),c.getSalary(),c.getId());
     }
