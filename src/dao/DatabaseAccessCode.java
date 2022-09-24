@@ -80,4 +80,14 @@ public class DatabaseAccessCode {
         }
         return list;
     }
+
+    public boolean deleteItem(String id) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
+                "root","1234");
+        PreparedStatement statement =
+                connection.prepareStatement("DELETE FROM Item WHERE code=?");
+        statement.setString(1,id);
+        return statement.executeUpdate()>0;
+    }
 }

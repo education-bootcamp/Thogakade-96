@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import view.tm.ItemTm;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class ItemFormController {
     public AnchorPane itemFormContext;
@@ -44,6 +45,27 @@ public class ItemFormController {
                 ItemTm tm = new ItemTm(i.getCode(),i.getDescription(),
                         i.getUnitPrice(),i.getQtyOnHand(),btn);
                 tmList.add(tm);
+
+                btn.setOnAction(e->{
+                    try{
+                        Alert alert= new Alert(Alert.AlertType.CONFIRMATION,
+                                "Are you sure?", ButtonType.YES, ButtonType.NO);
+                        Optional<ButtonType> buttonType = alert.showAndWait();
+                        if (buttonType.get()==ButtonType.YES){
+                            if (new DatabaseAccessCode().deleteItem(tm.getCode())){
+                                new Alert(Alert.AlertType.CONFIRMATION,"Item Deleted!").show();
+                                loadItems();
+                            }else{
+                                new Alert(Alert.AlertType.WARNING,"Try Again").show();
+                            }
+                        }
+
+                    }catch (Exception exception){
+                        new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
+                        exception.printStackTrace();
+                    }
+                });
+
             }
             tblItem.setItems(tmList);
         }catch (SQLException | ClassNotFoundException e){
@@ -66,6 +88,7 @@ public class ItemFormController {
         try {
             boolean isItemSaved= new DatabaseAccessCode().saveItem(item);
             if (isItemSaved){
+                loadItems();
                 new Alert(Alert.AlertType.CONFIRMATION,"Item Saved").show();
             }else{
                 new Alert(Alert.AlertType.WARNING,"Try Again").show();
