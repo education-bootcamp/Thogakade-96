@@ -1,5 +1,8 @@
 package controller;
 
+import dao.DaoFactory;
+import dao.custom.CustomerDao;
+import dao.custom.ItemDao;
 import dao.custom.impl.ItemDaoImpl;
 import entity.Item;
 import javafx.collections.FXCollections;
@@ -31,6 +34,8 @@ public class ItemFormController {
     public TableColumn colQty;
     public TableColumn colOption;
 
+    private ItemDao dao = DaoFactory.getInstance().getDao(DaoFactory.DaoType.ITEM);
+
     public void initialize() {
         colCode.setCellValueFactory(new PropertyValueFactory<>("code"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -60,7 +65,7 @@ public class ItemFormController {
     private void loadItems() {
         ObservableList<ItemTm> tmList= FXCollections.observableArrayList();
         try {
-            for (Item i : new ItemDaoImpl().loadAll()){
+            for (Item i : dao.loadAll()){
                 Button btn = new Button("Delete");
                 ItemTm tm = new ItemTm(i.getCode(),i.getDescription(),
                         i.getUnitPrice(),i.getQtyOnHand(),btn);
@@ -72,7 +77,7 @@ public class ItemFormController {
                                 "Are you sure?", ButtonType.YES, ButtonType.NO);
                         Optional<ButtonType> buttonType = alert.showAndWait();
                         if (buttonType.get()==ButtonType.YES){
-                            if (new ItemDaoImpl().delete(tm.getCode())){
+                            if (dao.delete(tm.getCode())){
                                 new Alert(Alert.AlertType.CONFIRMATION,"Item Deleted!").show();
                                 loadItems();
                             }else{
@@ -114,7 +119,7 @@ public class ItemFormController {
 
         if (btnSaveItem.getText().equalsIgnoreCase("Save Item")){
             try {
-                boolean isItemSaved= new ItemDaoImpl().save(item);
+                boolean isItemSaved= dao.save(item);
                 if (isItemSaved){
                     loadItems();
                     clear();
@@ -128,7 +133,7 @@ public class ItemFormController {
             }
         }else{
             try {
-                boolean isItemUpdated= new ItemDaoImpl().update(item);
+                boolean isItemUpdated= dao.update(item);
                 if (isItemUpdated){
                     loadItems();
                     clear();

@@ -1,5 +1,7 @@
 package controller;
 
+import dao.DaoFactory;
+import dao.custom.CustomerDao;
 import dao.custom.impl.CustomerDaoImpl;
 import entity.Customer;
 import javafx.collections.FXCollections;
@@ -33,6 +35,9 @@ public class CustomerFormController {
     public TableColumn colOption;
     public AnchorPane customerContext;
 
+    private CustomerDao dao = DaoFactory.getInstance().getDao(DaoFactory.DaoType.CUSTOMER);
+
+
     public void initialize(){
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -64,7 +69,7 @@ public class CustomerFormController {
     private void loadAllCustomers() {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
         try{
-            for (Customer c:new CustomerDaoImpl().loadAll()
+            for (Customer c:dao.loadAll()
              ) {
                 Button btn= new Button("Delete");
                 CustomerTm tm= new CustomerTm(
@@ -80,7 +85,7 @@ public class CustomerFormController {
                                 "Are you sure?", ButtonType.YES, ButtonType.NO);
                         Optional<ButtonType> buttonType = alert.showAndWait();
                         if (buttonType.get()==ButtonType.YES){
-                            if (new CustomerDaoImpl().delete(tm.getId())){
+                            if (dao.delete(tm.getId())){
                                 new Alert(Alert.AlertType.CONFIRMATION,"Customer Deleted!").show();
                                 loadAllCustomers();
                             }else{
@@ -110,7 +115,7 @@ public class CustomerFormController {
 
         if (btnSaveCustomer.getText().equalsIgnoreCase("Save Customer")){
             try {
-                boolean isCustomerSaved = new CustomerDaoImpl().save(c1);
+                boolean isCustomerSaved = dao.save(c1);
                 if (isCustomerSaved){
                     loadAllCustomers();
                     clear();
@@ -124,7 +129,7 @@ public class CustomerFormController {
             }
         }else{
             try {
-                boolean isCustomerUpdated = new CustomerDaoImpl().update(c1);
+                boolean isCustomerUpdated = dao.update(c1);
                 if (isCustomerUpdated){
                     loadAllCustomers();
                     clear();
