@@ -1,9 +1,13 @@
 package controller;
 
+import bo.BoFactory;
+import bo.custom.CustomerBo;
+import bo.custom.ItemBo;
 import dao.DaoFactory;
 import dao.custom.CustomerDao;
 import dao.custom.ItemDao;
 import dao.custom.impl.ItemDaoImpl;
+import dto.ItemDto;
 import entity.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,7 +38,7 @@ public class ItemFormController {
     public TableColumn colQty;
     public TableColumn colOption;
 
-
+    private ItemBo bo = BoFactory.getInstance().getBo(BoFactory.BoType.ITEM);
 
     public void initialize() {
         colCode.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -65,7 +69,7 @@ public class ItemFormController {
     private void loadItems() {
         ObservableList<ItemTm> tmList= FXCollections.observableArrayList();
         try {
-            for (Item i : dao.loadAll()){
+            for (ItemDto i : bo.loadAllItems()){
                 Button btn = new Button("Delete");
                 ItemTm tm = new ItemTm(i.getCode(),i.getDescription(),
                         i.getUnitPrice(),i.getQtyOnHand(),btn);
@@ -77,7 +81,7 @@ public class ItemFormController {
                                 "Are you sure?", ButtonType.YES, ButtonType.NO);
                         Optional<ButtonType> buttonType = alert.showAndWait();
                         if (buttonType.get()==ButtonType.YES){
-                            if (dao.delete(tm.getCode())){
+                            if (bo.deleteItem(tm.getCode())){
                                 new Alert(Alert.AlertType.CONFIRMATION,"Item Deleted!").show();
                                 loadItems();
                             }else{
@@ -111,7 +115,7 @@ public class ItemFormController {
     }
 
     public void saveItemOnAction(ActionEvent actionEvent) {
-        Item item = new Item(
+        ItemDto item = new ItemDto(
                 txtCode.getText(),txtDescription.getText()
                 ,Double.parseDouble(txtUnitPrice.getText()),
                 Integer.parseInt(txtQtyOnHand.getText())
@@ -119,7 +123,7 @@ public class ItemFormController {
 
         if (btnSaveItem.getText().equalsIgnoreCase("Save Item")){
             try {
-                boolean isItemSaved= dao.save(item);
+                boolean isItemSaved= bo.saveItem(item);
                 if (isItemSaved){
                     loadItems();
                     clear();
@@ -133,7 +137,7 @@ public class ItemFormController {
             }
         }else{
             try {
-                boolean isItemUpdated= dao.update(item);
+                boolean isItemUpdated= bo.updateItem(item);
                 if (isItemUpdated){
                     loadItems();
                     clear();

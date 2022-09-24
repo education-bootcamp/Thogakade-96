@@ -1,8 +1,11 @@
 package controller;
 
+import bo.BoFactory;
+import bo.custom.CustomerBo;
 import dao.DaoFactory;
 import dao.custom.CustomerDao;
 import dao.custom.impl.CustomerDaoImpl;
+import dto.CustomerDto;
 import entity.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,7 +38,7 @@ public class CustomerFormController {
     public TableColumn colOption;
     public AnchorPane customerContext;
 
-
+    private CustomerBo bo = BoFactory.getInstance().getBo(BoFactory.BoType.CUSTOMER);
 
 
     public void initialize(){
@@ -69,7 +72,7 @@ public class CustomerFormController {
     private void loadAllCustomers() {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
         try{
-            for (Customer c:dao.loadAll()
+            for (CustomerDto c:bo.loadAllCustomers()
              ) {
                 Button btn= new Button("Delete");
                 CustomerTm tm= new CustomerTm(
@@ -85,7 +88,7 @@ public class CustomerFormController {
                                 "Are you sure?", ButtonType.YES, ButtonType.NO);
                         Optional<ButtonType> buttonType = alert.showAndWait();
                         if (buttonType.get()==ButtonType.YES){
-                            if (dao.delete(tm.getId())){
+                            if (bo.deleteCustomer(tm.getId())){
                                 new Alert(Alert.AlertType.CONFIRMATION,"Customer Deleted!").show();
                                 loadAllCustomers();
                             }else{
@@ -109,13 +112,13 @@ public class CustomerFormController {
     }
 
     public void saveCustomerOnAction(ActionEvent actionEvent) {
-        Customer c1= new Customer(
+        CustomerDto c1= new CustomerDto(
                 txtId.getText(),txtName.getText(),txtAddress.getText(),Double.parseDouble(txtSalary.getText())
         );
 
         if (btnSaveCustomer.getText().equalsIgnoreCase("Save Customer")){
             try {
-                boolean isCustomerSaved = dao.save(c1);
+                boolean isCustomerSaved = bo.saveCustomer(c1);
                 if (isCustomerSaved){
                     loadAllCustomers();
                     clear();
@@ -129,7 +132,7 @@ public class CustomerFormController {
             }
         }else{
             try {
-                boolean isCustomerUpdated = dao.update(c1);
+                boolean isCustomerUpdated = bo.updateCustomer(c1);
                 if (isCustomerUpdated){
                     loadAllCustomers();
                     clear();
