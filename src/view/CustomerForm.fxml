@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.CustomerFormController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerFormController">
+   <children>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Back to home" />
+      <Button layoutX="479.0" layoutY="14.0" mnemonicParsing="false" text="+ New Customer" />
+      <Label layoutX="211.0" layoutY="16.0" text="Customer Management">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField layoutX="14.0" layoutY="81.0" prefHeight="27.0" prefWidth="120.0" promptText="Customer Id" />
+      <Separator layoutX="14.0" layoutY="60.0" prefHeight="0.0" prefWidth="574.0" />
+      <TextField layoutX="144.0" layoutY="81.0" prefHeight="27.0" prefWidth="147.0" promptText="Customer Name" />
+      <TextField layoutX="300.0" layoutY="81.0" prefHeight="27.0" prefWidth="147.0" promptText="Address" />
+      <TextField layoutX="456.0" layoutY="81.0" prefHeight="27.0" prefWidth="132.0" promptText="Salary" />
+      <Button layoutX="442.0" layoutY="118.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="147.0" text="Save Customer" />
+      <TextField layoutX="14.0" layoutY="118.0" prefHeight="27.0" prefWidth="422.0" promptText="Search" />
+      <TableView layoutX="14.0" layoutY="157.0" prefHeight="233.0" prefWidth="574.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Id" />
+          <TableColumn prefWidth="75.0" text="Name" />
+            <TableColumn prefWidth="169.0" text="Address" />
+            <TableColumn prefWidth="133.0" text="Salary" />
+            <TableColumn prefWidth="120.0" text="Option" />
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>
