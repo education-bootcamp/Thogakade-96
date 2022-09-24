@@ -5,11 +5,15 @@ import entity.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import view.tm.ItemTm;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -27,7 +31,7 @@ public class ItemFormController {
     public TableColumn colQty;
     public TableColumn colOption;
 
-    public void initialize(){
+    public void initialize() {
         colCode.setCellValueFactory(new PropertyValueFactory<>("code"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
@@ -35,6 +39,22 @@ public class ItemFormController {
         colOption.setCellValueFactory(new PropertyValueFactory<>("btn"));
 
         loadItems();
+
+        //==========listeners
+        tblItem.getSelectionModel()
+                .selectedItemProperty()
+                .addListener(((observable, oldValue, newValue) -> {
+                    setData(newValue);
+                }));
+
+    }
+
+    private void setData(ItemTm tm) {
+        txtCode.setText(tm.getCode());
+        txtDescription.setText(tm.getDescription());
+        txtUnitPrice.setText(String.valueOf(tm.getUnitPrice()));
+        txtQtyOnHand.setText(String.valueOf(tm.getQtyOnHand()));
+        btnSaveItem.setText("Update Item");
     }
 
     private void loadItems() {
@@ -73,10 +93,16 @@ public class ItemFormController {
         }
     }
 
-    public void backToHomeOnAction(ActionEvent actionEvent) {
+    public void backToHomeOnAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) itemFormContext.getScene().getWindow();
+        stage.setScene(new Scene(FXMLLoader.load(
+                getClass().getResource("../view/MainForm.fxml"))));
+        stage.centerOnScreen();
     }
 
     public void newItemOnAction(ActionEvent actionEvent) {
+        clear();
+        btnSaveItem.setText("Save Item");
     }
 
     public void saveItemOnAction(ActionEvent actionEvent) {
@@ -85,17 +111,44 @@ public class ItemFormController {
                 ,Double.parseDouble(txtUnitPrice.getText()),
                 Integer.parseInt(txtQtyOnHand.getText())
         );
-        try {
-            boolean isItemSaved= new DatabaseAccessCode().saveItem(item);
-            if (isItemSaved){
-                loadItems();
-                new Alert(Alert.AlertType.CONFIRMATION,"Item Saved").show();
-            }else{
-                new Alert(Alert.AlertType.WARNING,"Try Again").show();
+
+        if (btnSaveItem.getText().equalsIgnoreCase("Save Item")){
+            try {
+                boolean isItemSaved= new DatabaseAccessCode().saveItem(item);
+                if (isItemSaved){
+                    loadItems();
+                    clear();
+                    new Alert(Alert.AlertType.CONFIRMATION,"Item Saved").show();
+                }else{
+                    new Alert(Alert.AlertType.WARNING,"Try Again").show();
+                }
+            } catch (ClassNotFoundException | SQLException e) {
+                new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
+                throw new RuntimeException(e);
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
-            throw new RuntimeException(e);
+        }else{
+            try {
+                boolean isItemUpdated= new DatabaseAccessCode().updateItem(item);
+                if (isItemUpdated){
+                    loadItems();
+                    clear();
+                    new Alert(Alert.AlertType.CONFIRMATION,"Item Updated").show();
+                }else{
+                    new Alert(Alert.AlertType.WARNING,"Try Again").show();
+                }
+            } catch (ClassNotFoundException | SQLException e) {
+                new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
+                throw new RuntimeException(e);
+            }
         }
+
+
+    }
+
+    private void clear(){
+        txtCode.clear();
+        txtDescription.clear();
+        txtUnitPrice.clear();
+        txtQtyOnHand.clear();
     }
 }

@@ -90,4 +90,19 @@ public class DatabaseAccessCode {
         statement.setString(1,id);
         return statement.executeUpdate()>0;
     }
+
+    public boolean updateItem(Item i) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
+                "root","1234");
+        PreparedStatement statement = connection
+                .prepareStatement("UPDATE Item SET description=?,unitPrice=?,qtyOnHand=? WHERE code=?");
+        statement.setString(1,i.getDescription());
+        statement.setDouble(2,i.getUnitPrice());
+        statement.setInt(3,i.getQtyOnHand());
+        statement.setString(4,i.getCode());
+        return statement.executeUpdate()>0;
+    }
+
+
 }
