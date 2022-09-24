@@ -26,7 +26,7 @@
       <TextField fx:id="txtSalary" layoutX="456.0" layoutY="81.0" prefHeight="27.0" prefWidth="132.0" promptText="Salary" />
       <Button fx:id="btnSaveCustomer" layoutX="442.0" layoutY="118.0" mnemonicParsing="false" onAction="#saveCustomerOnAction" prefHeight="27.0" prefWidth="147.0" text="Save Customer" />
       <TextField layoutX="14.0" layoutY="118.0" prefHeight="27.0" prefWidth="422.0" promptText="Search" />
-      <TableView layoutX="14.0" layoutY="157.0" prefHeight="233.0" prefWidth="574.0">
+      <TableView fx:id="tblCustomer" layoutX="14.0" layoutY="157.0" prefHeight="233.0" prefWidth="574.0">
         <columns>
           <TableColumn prefWidth="75.0" text="Id" />
           <TableColumn prefWidth="75.0" text="Name" />
