@@ -1,6 +1,6 @@
 package controller;
 
-import dao.DatabaseAccessCode;
+import dao.custom.impl.ItemDaoImpl;
 import entity.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,7 +60,7 @@ public class ItemFormController {
     private void loadItems() {
         ObservableList<ItemTm> tmList= FXCollections.observableArrayList();
         try {
-            for (Item i : new DatabaseAccessCode().loadAllItems()){
+            for (Item i : new ItemDaoImpl().loadAllItems()){
                 Button btn = new Button("Delete");
                 ItemTm tm = new ItemTm(i.getCode(),i.getDescription(),
                         i.getUnitPrice(),i.getQtyOnHand(),btn);
@@ -72,7 +72,7 @@ public class ItemFormController {
                                 "Are you sure?", ButtonType.YES, ButtonType.NO);
                         Optional<ButtonType> buttonType = alert.showAndWait();
                         if (buttonType.get()==ButtonType.YES){
-                            if (new DatabaseAccessCode().deleteItem(tm.getCode())){
+                            if (new ItemDaoImpl().deleteItem(tm.getCode())){
                                 new Alert(Alert.AlertType.CONFIRMATION,"Item Deleted!").show();
                                 loadItems();
                             }else{
@@ -114,7 +114,7 @@ public class ItemFormController {
 
         if (btnSaveItem.getText().equalsIgnoreCase("Save Item")){
             try {
-                boolean isItemSaved= new DatabaseAccessCode().saveItem(item);
+                boolean isItemSaved= new ItemDaoImpl().saveItem(item);
                 if (isItemSaved){
                     loadItems();
                     clear();
@@ -128,7 +128,7 @@ public class ItemFormController {
             }
         }else{
             try {
-                boolean isItemUpdated= new DatabaseAccessCode().updateItem(item);
+                boolean isItemUpdated= new ItemDaoImpl().updateItem(item);
                 if (isItemUpdated){
                     loadItems();
                     clear();

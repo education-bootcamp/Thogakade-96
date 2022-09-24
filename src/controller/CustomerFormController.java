@@ -1,6 +1,6 @@
 package controller;
 
-import dao.DatabaseAccessCode;
+import dao.custom.impl.CustomerDaoImpl;
 import entity.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +15,6 @@ import view.tm.CustomerTm;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class CustomerFormController {
@@ -65,7 +64,7 @@ public class CustomerFormController {
     private void loadAllCustomers() {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
         try{
-            for (Customer c:new DatabaseAccessCode().loadAllCustomers()
+            for (Customer c:new CustomerDaoImpl().loadAllCustomers()
              ) {
                 Button btn= new Button("Delete");
                 CustomerTm tm= new CustomerTm(
@@ -81,7 +80,7 @@ public class CustomerFormController {
                                 "Are you sure?", ButtonType.YES, ButtonType.NO);
                         Optional<ButtonType> buttonType = alert.showAndWait();
                         if (buttonType.get()==ButtonType.YES){
-                            if (new DatabaseAccessCode().deleteCustomer(tm.getId())){
+                            if (new CustomerDaoImpl().deleteCustomer(tm.getId())){
                                 new Alert(Alert.AlertType.CONFIRMATION,"Customer Deleted!").show();
                                 loadAllCustomers();
                             }else{
@@ -111,7 +110,7 @@ public class CustomerFormController {
 
         if (btnSaveCustomer.getText().equalsIgnoreCase("Save Customer")){
             try {
-                boolean isCustomerSaved = new DatabaseAccessCode().saveCustomer(c1);
+                boolean isCustomerSaved = new CustomerDaoImpl().saveCustomer(c1);
                 if (isCustomerSaved){
                     loadAllCustomers();
                     clear();
@@ -125,7 +124,7 @@ public class CustomerFormController {
             }
         }else{
             try {
-                boolean isCustomerUpdated = new DatabaseAccessCode().updateCustomer(c1);
+                boolean isCustomerUpdated = new CustomerDaoImpl().updateCustomer(c1);
                 if (isCustomerUpdated){
                     loadAllCustomers();
                     clear();
