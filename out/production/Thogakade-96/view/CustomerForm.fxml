@@ -19,12 +19,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="14.0" layoutY="81.0" prefHeight="27.0" prefWidth="120.0" promptText="Customer Id" />
+      <TextField fx:id="txtId" layoutX="14.0" layoutY="81.0" prefHeight="27.0" prefWidth="120.0" promptText="Customer Id" />
       <Separator layoutX="14.0" layoutY="60.0" prefHeight="0.0" prefWidth="574.0" />
-      <TextField layoutX="144.0" layoutY="81.0" prefHeight="27.0" prefWidth="147.0" promptText="Customer Name" />
-      <TextField layoutX="300.0" layoutY="81.0" prefHeight="27.0" prefWidth="147.0" promptText="Address" />
-      <TextField layoutX="456.0" layoutY="81.0" prefHeight="27.0" prefWidth="132.0" promptText="Salary" />
-      <Button layoutX="442.0" layoutY="118.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="147.0" text="Save Customer" />
+      <TextField fx:id="txtName" layoutX="144.0" layoutY="81.0" prefHeight="27.0" prefWidth="147.0" promptText="Customer Name" />
+      <TextField fx:id="txtAddress" layoutX="300.0" layoutY="81.0" prefHeight="27.0" prefWidth="147.0" promptText="Address" />
+      <TextField fx:id="txtSalary" layoutX="456.0" layoutY="81.0" prefHeight="27.0" prefWidth="132.0" promptText="Salary" />
+      <Button fx:id="btnSaveCustomer" layoutX="442.0" layoutY="118.0" mnemonicParsing="false" onAction="#saveCustomerOnAction" prefHeight="27.0" prefWidth="147.0" text="Save Customer" />
       <TextField layoutX="14.0" layoutY="118.0" prefHeight="27.0" prefWidth="422.0" promptText="Search" />
       <TableView layoutX="14.0" layoutY="157.0" prefHeight="233.0" prefWidth="574.0">
         <columns>
