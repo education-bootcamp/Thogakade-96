@@ -66,4 +66,18 @@ public class DatabaseAccessCode {
     statement.setInt(4,i.getQtyOnHand());
     return statement.executeUpdate()>0;
 }
+
+    public ArrayList<Item> loadAllItems() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
+                "root","1234");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Item");
+        ResultSet resultSet = statement.executeQuery();
+        ArrayList<Item> list= new ArrayList<>();
+        while (resultSet.next()){
+            list.add(new Item(resultSet.getString(1),resultSet.getString(2),
+                    resultSet.getDouble(3),resultSet.getInt(4)));
+        }
+        return list;
+    }
 }
