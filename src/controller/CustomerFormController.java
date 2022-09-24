@@ -35,7 +35,7 @@ public class CustomerFormController {
     public TableColumn colOption;
     public AnchorPane customerContext;
 
-    private CustomerDao dao = DaoFactory.getInstance().getDao(DaoFactory.DaoType.CUSTOMER);
+
 
 
     public void initialize(){

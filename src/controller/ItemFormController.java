@@ -34,7 +34,7 @@ public class ItemFormController {
     public TableColumn colQty;
     public TableColumn colOption;
 
-    private ItemDao dao = DaoFactory.getInstance().getDao(DaoFactory.DaoType.ITEM);
+
 
     public void initialize() {
         colCode.setCellValueFactory(new PropertyValueFactory<>("code"));
