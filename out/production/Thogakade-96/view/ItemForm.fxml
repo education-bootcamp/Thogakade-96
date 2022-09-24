@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.ItemFormController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane fx:id="itemFormContext" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ItemFormController">
+   <children>
+      <Button layoutX="13.0" layoutY="12.0" mnemonicParsing="false" onAction="#backToHomeOnAction" text="Back to home" />
+      <Button layoutX="478.0" layoutY="12.0" mnemonicParsing="false" onAction="#newItemOnAction" prefHeight="27.0" prefWidth="109.0" text="+ New Item" />
+      <Label layoutX="230.0" layoutY="14.0" text="Item Management">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtCode" layoutX="13.0" layoutY="79.0" prefHeight="27.0" prefWidth="120.0" promptText="Item Code" />
+      <Separator layoutX="13.0" layoutY="58.0" prefHeight="0.0" prefWidth="574.0" />
+      <TextField fx:id="txtDescription" layoutX="143.0" layoutY="79.0" prefHeight="27.0" prefWidth="147.0" promptText="Description" />
+      <TextField fx:id="txtUnitPrice" layoutX="299.0" layoutY="79.0" prefHeight="27.0" prefWidth="147.0" promptText="unitPrice" />
+      <TextField fx:id="txtQtyOnHand" layoutX="455.0" layoutY="79.0" prefHeight="27.0" prefWidth="132.0" promptText="qtyOnHand" />
+      <Button fx:id="btnSaveItem" layoutX="441.0" layoutY="116.0" mnemonicParsing="false" onAction="#saveItemOnAction" prefHeight="27.0" prefWidth="147.0" text="Save Item" />
+      <TextField layoutX="13.0" layoutY="116.0" prefHeight="27.0" prefWidth="422.0" promptText="Search" />
+      <TableView fx:id="tblItem" layoutX="13.0" layoutY="155.0" prefHeight="233.0" prefWidth="574.0">
+         <columns>
+            <TableColumn fx:id="colCode" prefWidth="75.0" text="Code" />
+            <TableColumn fx:id="colDescription" prefWidth="75.0" text="Description" />
+            <TableColumn fx:id="colUnitPrice" prefWidth="169.0" text="Unit Price" />
+            <TableColumn fx:id="colQty" prefWidth="133.0" text="QtyOn Hand" />
+            <TableColumn fx:id="colOption" prefWidth="120.0" text="Option" />
+         </columns>
+      </TableView>
+   </children>
 </AnchorPane>

@@ -1,12 +1,13 @@
 package dao;
 
 import entity.Customer;
+import entity.Item;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseAccessCode {
-// save Customer
+// manage Customers
     public boolean saveCustomer(Customer c) throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
@@ -52,4 +53,17 @@ public class DatabaseAccessCode {
         statement.setString(4,c.getId());
         return statement.executeUpdate()>0;
     }
+
+// manage items
+    public boolean saveItem(Item i) throws ClassNotFoundException, SQLException {
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Thogakade",
+            "root","1234");
+    PreparedStatement statement = connection.prepareStatement("INSERT INTO Item VALUES(?,?,?,?)");
+    statement.setString(1,i.getCode());
+    statement.setString(2,i.getDescription());
+    statement.setDouble(3,i.getUnitPrice());
+    statement.setInt(4,i.getQtyOnHand());
+    return statement.executeUpdate()>0;
+}
 }

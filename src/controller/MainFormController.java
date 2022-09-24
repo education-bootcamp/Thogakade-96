@@ -11,7 +11,8 @@ import java.io.IOException;
 public class MainFormController {
     public AnchorPane mainFormContext;
 
-    public void btnItemManagementOnAction(ActionEvent actionEvent) {
+    public void btnItemManagementOnAction(ActionEvent actionEvent) throws IOException {
+        setUi("ItemForm");
     }
 
     public void btnCustomerManagementOnAction(ActionEvent actionEvent) throws IOException {
