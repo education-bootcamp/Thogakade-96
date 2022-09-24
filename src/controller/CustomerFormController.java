@@ -11,6 +11,7 @@ import view.tm.CustomerTm;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class CustomerFormController {
     public TextField txtId;
@@ -48,6 +49,30 @@ public class CustomerFormController {
                         c.getId(),c.getName(),c.getAddress(),c.getSalary(),btn
                 );
                 obList.add(tm);
+
+
+
+                    btn.setOnAction(e->{
+                        try{
+                        Alert alert= new Alert(Alert.AlertType.CONFIRMATION,
+                                "Are you sure?", ButtonType.YES, ButtonType.NO);
+                        Optional<ButtonType> buttonType = alert.showAndWait();
+                        if (buttonType.get()==ButtonType.YES){
+                            if (new DatabaseAccessCode().deleteCustomer(tm.getId())){
+                                new Alert(Alert.AlertType.CONFIRMATION,"Customer Deleted!").show();
+                                loadAllCustomers();
+                            }else{
+                                new Alert(Alert.AlertType.WARNING,"Try Again").show();
+                            }
+                        }
+
+                        }catch (Exception exception){
+                            new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
+                            exception.printStackTrace();
+                        }
+                    });
+
+
             }
             tblCustomer.setItems(obList);
         }catch (SQLException | ClassNotFoundException e){
