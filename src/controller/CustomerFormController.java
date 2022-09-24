@@ -37,6 +37,23 @@ public class CustomerFormController {
 
 
         loadAllCustomers();
+
+
+        //==========listeners
+        tblCustomer.getSelectionModel()
+                .selectedItemProperty()
+                .addListener(((observable, oldValue, newValue) -> {
+            setData(newValue);
+        }));
+
+    }
+
+    private void setData(CustomerTm tm) {
+        txtId.setText(tm.getId());
+        txtName.setText(tm.getName());
+        txtAddress.setText(tm.getAddress());
+        txtSalary.setText(String.valueOf(tm.getSalary()));
+        btnSaveCustomer.setText("Update Customer");
     }
 
     private void loadAllCustomers() {
@@ -85,16 +102,46 @@ public class CustomerFormController {
         Customer c1= new Customer(
                 txtId.getText(),txtName.getText(),txtAddress.getText(),Double.parseDouble(txtSalary.getText())
         );
-        try {
-            boolean isCustomerSaved = new DatabaseAccessCode().saveCustomer(c1);
-            if (isCustomerSaved){
-                new Alert(Alert.AlertType.CONFIRMATION,"Customer Saved").show();
-            }else{
-                new Alert(Alert.AlertType.WARNING,"Try Again").show();
+
+        if (btnSaveCustomer.getText().equalsIgnoreCase("Save Customer")){
+            try {
+                boolean isCustomerSaved = new DatabaseAccessCode().saveCustomer(c1);
+                if (isCustomerSaved){
+                    loadAllCustomers();
+                    clear();
+                    new Alert(Alert.AlertType.CONFIRMATION,"Customer Saved").show();
+                }else{
+                    new Alert(Alert.AlertType.WARNING,"Try Again").show();
+                }
+            }catch (SQLException | ClassNotFoundException e){
+                new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
+                e.printStackTrace();
             }
-        }catch (SQLException | ClassNotFoundException e){
-            new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
-            e.printStackTrace();
+        }else{
+            try {
+                boolean isCustomerUpdated = new DatabaseAccessCode().updateCustomer(c1);
+                if (isCustomerUpdated){
+                    loadAllCustomers();
+                    clear();
+                    new Alert(Alert.AlertType.CONFIRMATION,"Customer Updated").show();
+                }else{
+                    new Alert(Alert.AlertType.WARNING,"Try Again").show();
+                }
+            }catch (SQLException | ClassNotFoundException e){
+                new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
+                e.printStackTrace();
+            }
         }
+    }
+    private void clear(){
+        txtId.clear();
+        txtName.clear();
+        txtAddress.clear();
+        txtSalary.clear();
+    }
+
+    public void newCustomerOnAction(ActionEvent actionEvent) {
+        clear();
+        btnSaveCustomer.setText("Save Customer");
     }
 }
